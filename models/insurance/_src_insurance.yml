@@ -9,5 +9,14 @@ sources:
       - name: claims
       - name: customers
       - name: policies
+
+  - name: insurance_gdrive
+    database: dannyfinnerty
+    schema: insurance_dw_source
+    quoting:
+      schema: true
+      identifier: true
+    tables:
+      - name: customer_service_interactions
       
 
