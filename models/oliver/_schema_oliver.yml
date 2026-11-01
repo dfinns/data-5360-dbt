@@ -15,3 +15,10 @@ models:
     description: "Sales Fact"
   - name: sales
     description: "Sales semantic layer for analyst reporting"
+  - name: stg_employee_certifications
+    description: |
+      Staging model for the employee_certifications data
+  - name: oliver_fact_certifications
+    description: |
+      Fact table showing when an employee purchased a certification
+      The grain of this table is employee + date
