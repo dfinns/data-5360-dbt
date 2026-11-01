@@ -18,5 +18,3 @@ sources:
       identifier: true
     tables:
       - name: customer_service_interactions
-      
-
