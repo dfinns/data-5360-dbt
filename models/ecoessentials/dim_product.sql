@@ -1,5 +1,6 @@
 {{ config(
     materialized = 'table',
+    database = 'group_8_project',
     schema = 'dw_ecoessentials'
 )
 }}
