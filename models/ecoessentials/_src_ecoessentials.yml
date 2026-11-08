@@ -6,8 +6,12 @@ sources:
     schema: ecoessentials_ecoessentials_transactional_db
     tables:
       - name: customer
-      - name: marketing_emails
-      - name: order
+      - name: email_events
+        identifier: marketing_emails
+      - name: orders
+        identifier: ORDER
+        quoting: 
+          identifier: true
       - name: order_line
       - name: product
       - name: promotional_campaign
