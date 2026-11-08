@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: dim_email_campaign
+    description: EcoEssentials Campaign Dimension
+  - name: eco_dim_customer
+    description: "EcoEssentials Customer Dimension"
+  - name: eco_dim_date
+    description: "EcoEssentials Date Dimension"
+  - name: dim_emails
+    description: EcoEssentials Emails Dimension
+  - name: dim_product
+    description: EcoEssentials Product Dimension
+  - name: dim_promotional
+    description: "EcoEssentials Promo Dimension"
+  - name: dim_event_type
+    description: EcoEssentials Event Dimension
+  - name: fact__email_events
+    description: |
+    Grain: one row per email event (sent, open, or click)
+    Fact table capturing email id, event count, and minutes from sent to event
+  - name: fact_sales
+    description: |
+    Grain: one row per order line.
+    price_after_discount in the source is the line's net total (list price x quantity x (1 - discount))
+  - name: stg_email_events
+    description: |
+    Cleans the SFMC email export once so every email dim and the fact read the same values
