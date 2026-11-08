@@ -17,12 +17,12 @@ models:
     description: EcoEssentials Event Dimension
   - name: fact__email_events
     description: |
-    Grain: one row per email event (sent, open, or click)
-    Fact table capturing email id, event count, and minutes from sent to event
+      Grain: one row per email event (sent, open, or click)
+      Fact table capturing email id, event count, and minutes from sent to event
   - name: fact_sales
     description: |
-    Grain: one row per order line.
-    price_after_discount in the source is the line's net total (list price x quantity x (1 - discount))
+     Grain: one row per order line.
+      price_after_discount in the source is the line's net total (list price x quantity x (1 - discount))
   - name: stg_email_events
     description: |
-    Cleans the SFMC email export once so every email dim and the fact read the same values
+      Cleans the SFMC email export once so every email dim and the fact read the same values
