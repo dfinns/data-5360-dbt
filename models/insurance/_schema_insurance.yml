@@ -19,7 +19,7 @@ models:
       - name: policy_key
         description: "A foreign key  to the policy dimension"
         tests:
-          - not_null    
+          - not_null
   - name: stg_sustomer_service_interactions
     description: |
       Staging model for customer service interactions.
@@ -44,7 +44,6 @@ models:
       - name: customer_key
         tests:
           - relationships:
-              to: ref('dim_customer') # the model you to want to compare to
-              field: customer_key # the field on the model you want to compare to
+            to: ref('dim_customer') # the model you to want to compare to
+            field: customer_key # the field on the model you want to compare to
 
-  
