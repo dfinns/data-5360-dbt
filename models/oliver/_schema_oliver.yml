@@ -11,14 +11,42 @@ models:
     description: "Sales Store Dimension"
   - name: oliver_dim_product
     description: "Sales Product Dimension"
+    columns:
+      - name: product_key
+        data_tests:
+          - unique       
   - name: oliver_fact_sales
     description: "Sales Fact"
+    columns:
+      - name: cust_key
+        description: "A foreign key to the from the customer dimension"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('oliver_dim_customer')
+                field: cust_key
   - name: sales
     description: "Sales semantic layer for analyst reporting"
   - name: stg_employee_certifications
     description: |
       Staging model for the employee_certifications data
-  - name: oliver_fact_certifications
+  - name: oliver_fact_certification
     description: |
-      Fact table showing when an employee purchased a certification
-      The grain of this table is employee + date
+      Fact table showing when an employee was awarded a certification.
+      The grain of this table is employee + certification + date.
+    columns:
+      - name: certification_name
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - "Point of Sale Operations"
+                  - "Inventory Management"
+                  - "Conflict Resolution"
+                  - "Customer Service Excellence"
+                  - "Product Knowledge Level 2"
+                  - "Leadership and Coaching"
+                  - "Strategic Retail Operations"
+                  - "Workplace Safety"
+                  - "Cash Handling and Security"
