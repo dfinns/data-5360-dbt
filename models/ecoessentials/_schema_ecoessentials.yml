@@ -2,27 +2,156 @@ version: 2
 
 models:
   - name: dim_email_campaign
-    description: EcoEssentials Campaign Dimension
+    description: "EcoEssentials Campaign Dimension"
+    columns:
+      - name: email_campaign_key
+        data_tests:
+          - unique
+          - not_null
+
   - name: eco_dim_customer
     description: "EcoEssentials Customer Dimension"
+    columns:
+      - name: customer_key
+        data_tests:
+          - unique
+          - not_null
+      - name: source_system
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - "Ecommerce + SFMC"
+                  - "Ecommerce"
+                  - "SFMC"
+
   - name: eco_dim_date
     description: "EcoEssentials Date Dimension"
+    columns:
+      - name: date_key
+        data_tests:
+          - unique
+          - not_null
+
   - name: dim_emails
-    description: EcoEssentials Emails Dimension
+    description: "EcoEssentials Emails Dimension"
+    columns:
+      - name: email_key
+        data_tests:
+          - unique
+          - not_null
+
   - name: dim_product
-    description: EcoEssentials Product Dimension
+    description: "EcoEssentials Product Dimension"
+    columns:
+      - name: product_key
+        data_tests:
+          - unique
+          - not_null
+      - name: product_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - "pan"
+                  - "pot"
+                  - "utensil"
+                  - "storage"
+                  - "cutting_board"
+                  - "accessory"
+
   - name: dim_promotional
     description: "EcoEssentials Promo Dimension"
+    columns:
+      - name: promotional_campaign_key
+        data_tests:
+          - unique
+          - not_null
+
   - name: dim_event_type
-    description: EcoEssentials Event Dimension
+    description: "EcoEssentials Event Dimension"
+    columns:
+      - name: event_type_key
+        data_tests:
+          - unique
+          - not_null
+      - name: event_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - "SENT"
+                  - "OPEN"
+                  - "CLICK"
+
   - name: fact__email_events
     description: |
-      Grain: one row per email event (sent, open, or click)
-      Fact table capturing email id, event count, and minutes from sent to event
+      Grain: one row per email event (sent, open, or click).
+      Fact table capturing email id, event count, and minutes from send to event.
+    columns:
+      - name: email_event_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('eco_dim_customer')
+                field: customer_key
+      - name: email_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_emails')
+                field: email_key
+      - name: event_type_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_event_type')
+                field: event_type_key
+
   - name: fact_sales
     description: |
-     Grain: one row per order line.
-      price_after_discount in the source is the line's net total (list price x quantity x (1 - discount))
+      Grain: one row per order line.
+      price_after_discount in the source is the line's net total (list price x quantity x (1 - discount)).
+    columns:
+      - name: order_line_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('eco_dim_customer')
+                field: customer_key
+      - name: product_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_key
+      - name: promotional_campaign_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_promotional')
+                field: promotional_campaign_key
+      - name: date_key
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('eco_dim_date')
+                field: date_key
+
   - name: stg_email_events
     description: |
-      Cleans the SFMC email export once so every email dim and the fact read the same values
+      Cleans the SFMC email export once so every email dim and the fact read the same values.
+    columns:
+      - name: email_event_id
+        data_tests:
+          - unique
+          - not_null
