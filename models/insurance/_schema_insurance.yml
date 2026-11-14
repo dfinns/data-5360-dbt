@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: dim_agent
-    description: "Insurance Agent Dimesion"
+    description: "Insurance Agent Dimension"
   - name: dim_customer
     description: "Insurance Customer Dimension"
   - name: dim_date
@@ -11,39 +11,41 @@ models:
     description: "Insurance Policy Dimension"
     columns:
       - name: policy_key
-        tests:
+        data_tests:
           - unique
   - name: fact_claim
     description: "Insurance Claim Fact"
     columns:
       - name: policy_key
-        description: "A foreign key  to the policy dimension"
-        tests:
+        description: "A foreign key to the policy dimension"
+        data_tests:
           - not_null
-  - name: stg_sustomer_service_interactions
+  - name: stg_customer_service_interactions
     description: |
       Staging model for customer service interactions.
       Each record represents a call between a customer and an agent.
     columns:
       - name: issue_type
-        tests:
+        data_tests:
           - accepted_values:
-              values:
-                - "New Claim"
-                - "Claim Status"
-                - "Policy Change"
-                - "Coverage Info"
-                - "Billing Issue"
-                - "Policy Renewal"
+              arguments:
+                values:
+                  - "New Claim"
+                  - "Claim Status"
+                  - "Policy Change"
+                  - "Coverage Info"
+                  - "Billing Issue"
+                  - "Policy Renewal"
   - name: fact_interaction
     description: |
       Customer Service Interaction Fact.
-      The grain of this table is customer + agent + date
+      The grain of this table is customer + agent + date.
       Each record represents a call between a customer and an agent on a given date.
     columns:
       - name: customer_key
-        tests:
+        data_tests:
           - relationships:
-            to: ref('dim_customer') # the model you to want to compare to
-            field: customer_key # the field on the model you want to compare to
+              arguments:
+                to: ref('dim_customer')   # the model you want to compare to
+                field: customer_key       # the field on that model
 
